@@ -11,7 +11,7 @@ class SeriesModel {
     public String SeriesAge;
     public String SeriesNumberOfEpisodes;
     
-        // Constructor for SeriesModel
+        // Constructor for SeriesModel (Reference: Oracle, 2025 - OOP concepts)
     public SeriesModel(String id, String name, String age, String episodes) {
         this.SeriesId = id;
         this.SeriesName = name;
@@ -27,7 +27,7 @@ public class TVseriesMenu {
 
      // Main loop to start the application
     public void run() {
-        while (true) {
+        while (true) {  // Looping until exit (Reference: Eck, 2020)
             System.out.println("LATEST SERIES - 2025");
             System.out.println("*****************************");
             System.out.print("Enter (1) to launch menu or any other key to exit: ");
@@ -42,7 +42,7 @@ public class TVseriesMenu {
         }
     }
 
-       // Prints the menu options and handles user selection
+      // Menu handled using switch-case (Reference: Oracle, 2025 - Switch Statement)
     public void showMenu() {
         System.out.println("\nPlease select one of the following menu items:");
         System.out.println("(1) Capture a new series.");
@@ -106,18 +106,18 @@ public class TVseriesMenu {
 
      // Ensures the user enters a valid age restriction between 2 and 18
     public String getValidSeriesAge() {
-        while (true) {
+        while (true) { // Keeps looping until correct input (Eck, 2020)
             System.out.print("Enter the series age restriction: ");
             String ageInput = sc.nextLine();
 
-            if (!isNumeric(ageInput)) {
+            if (!isNumeric(ageInput)) { // Boolean method for validation (Oracle, 2025)
                 System.out.println("You have entered an incorrect series age!!!");
                 System.out.println("Please re-enter the series age >>");
                 continue;
             }
 
             int age = Integer.parseInt(ageInput);
-            if (age < 2 || age > 18) {
+            if (age < 2 || age > 18) {  // Validating using if-statement (Oracle, 2025)
                 System.out.println("You have entered an incorrect series age!!!");
                 System.out.println("Please re-enter the series age >>");
                 continue;
@@ -129,7 +129,7 @@ public class TVseriesMenu {
     
       // Utility method to check if a string is numeric
     public boolean isNumeric(String str) {
-        return str.matches("\\d+");
+        return str.matches("\\d+"); // Regular expressions in Java (Schildt, 2021)
     }
 
      // Allows user to search for a series by ID
@@ -137,8 +137,8 @@ public class TVseriesMenu {
         System.out.print("\nEnter the series id to search: ");
         String searchId = sc.nextLine();
 
-        boolean found = false;
-        for (SeriesModel series : seriesList) {
+        boolean found = false; // Boolean variable (Oracle, 2025)
+        for (SeriesModel series : seriesList) { // For-each loop (Eck, 2020)
             if (series.SeriesId.equals(searchId)) {
                 System.out.println("------------------------------------");
                 System.out.println("SERIES ID: " + series.SeriesId);
@@ -151,7 +151,7 @@ public class TVseriesMenu {
             }
         }
 
-        if (!found) {
+        if (!found) {  // Using boolean in condition (Oracle, 2025)
             System.out.println("------------------------------------");
             System.out.println("Series with Series Id: " + searchId + " was not found!");
             System.out.println("------------------------------------");
@@ -188,7 +188,7 @@ public class TVseriesMenu {
         System.out.print("Enter the number of episodes: ");
         String newEpisodes = sc.nextLine();
 
-         // Apply updates
+         // Apply updates (Reference: Oracle, 2025 - Classes and Objects)
         seriesToUpdate.SeriesName = newName;
         seriesToUpdate.SeriesAge = newAge;
         seriesToUpdate.SeriesNumberOfEpisodes = newEpisodes;
@@ -220,7 +220,7 @@ public class TVseriesMenu {
         String confirmation = sc.nextLine();
 
         if (confirmation.equalsIgnoreCase("y")) {
-            seriesList.remove(seriesToDelete);
+            seriesList.remove(seriesToDelete); // Removing from ArrayList (Oracle, 2025)
             System.out.println("------------------------------------");
             System.out.println("Series with Series Id: " + deleteId + " WAS deleted!");
             System.out.println("------------------------------------");
@@ -236,11 +236,11 @@ public class TVseriesMenu {
         System.out.println("\nSERIES REPORT - 2025");
         System.out.println("*****************************");
 
-        if (seriesList.isEmpty()) {
+        if (seriesList.isEmpty()) { // Checking empty list (Oracle, 2025)
             System.out.println("No series data available.");
         } else {
             int counter = 1;
-            for (SeriesModel series : seriesList) {
+            for (SeriesModel series : seriesList) {  // Iterating with for-each (Eck, 2020)
                 System.out.println("Series " + counter);
                 System.out.println("------------------------------------");
                 System.out.println("SERIES ID: " + series.SeriesId);
@@ -257,7 +257,7 @@ public class TVseriesMenu {
      // Exits the program completely
     public void exitSeriesApplication() {
         System.out.println("Exiting application...");
-        System.exit(0);
+        System.exit(0); // Exiting program (Schildt, 2021)
     }
 
     // After each action, gives the user a choice to return to menu or exit
@@ -265,10 +265,36 @@ public class TVseriesMenu {
         System.out.print("Enter (1) to launch menu or any other key to exit: ");
         String input = sc.nextLine();
 
-        if (input.equals("1")) {
+        if (input.equals("1")) {  // If-statement for decision making (Oracle, 2025)
             showMenu();
         } else {
             exitSeriesApplication();
         }
     }
 }
+
+/*References
+
+Oracle (2025). ArrayList class. Java SE 17 Documentation. Available at: https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html
+ (Accessed: 3 September 2025).
+
+Oracle (2025). Scanner class. Java SE 17 Documentation. Available at: https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Scanner.html
+ (Accessed: 3 September 2025).
+
+Oracle (2025). If and Else statements. The Java™ Tutorials. Available at: https://docs.oracle.com/javase/tutorial/java/nutsandbolts/if.html
+ (Accessed: 3 September 2025).
+
+Oracle (2025). Switch statement. The Java™ Tutorials. Available at: https://docs.oracle.com/javase/tutorial/java/nutsandbolts/switch.html
+ (Accessed: 3 September 2025).
+
+Oracle (2025). Primitive data types and boolean. The Java™ Tutorials. Available at: https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html
+ (Accessed: 3 September 2025).
+
+Oracle (2025). Classes and Objects. The Java™ Tutorials. Available at: https://docs.oracle.com/javase/tutorial/java/javaOO/classes.html
+ (Accessed: 3 September 2025).
+
+Eck, D.J. (2020). Introduction to Programming Using Java. 8th Edition. Available at: http://math.hws.edu/javanotes/
+ (Accessed: 3 September 2025).
+
+Schildt, H. (2021). Java: The Complete Reference. 12th Edition. New York: McGraw-Hill Education.
+*/

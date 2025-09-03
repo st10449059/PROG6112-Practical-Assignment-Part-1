@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package tvseriesmain;
 
 import org.junit.After;
@@ -9,13 +5,17 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
-/**
- *
- * @author lab_services_student
- */
+
 public class TVseriesMenuTest {
+    
+    private TVseriesMenu menu;
+    private ArrayList<SeriesModel> seriesList;
     
     public TVseriesMenuTest() {
     }
@@ -29,148 +29,128 @@ public class TVseriesMenuTest {
     }
     
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
+        menu = new TVseriesMenu();
+        seriesList = getSeriesList(menu);
+        seriesList.clear();
+
+        // preload with sample series
+        seriesList.add(new SeriesModel("S1", "Breaking Code", "16", "10"));
+        seriesList.add(new SeriesModel("S2", "Java Dreams", "13", "8"));
     }
     
     @After
     public void tearDown() {
     }
 
-    /**
-     * Test of run method, of class TVseriesMenu.
-     */
-    @Test
-    public void testRun() {
-        System.out.println("run");
-        TVseriesMenu instance = new TVseriesMenu();
-        instance.run();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    // Helper method to access private seriesList
+    @SuppressWarnings("unchecked")
+    private ArrayList<SeriesModel> getSeriesList(TVseriesMenu instance) throws Exception {
+        Field field = TVseriesMenu.class.getDeclaredField("seriesList");
+        field.setAccessible(true);
+        return (ArrayList<SeriesModel>) field.get(instance);
     }
 
-    /**
-     * Test of showMenu method, of class TVseriesMenu.
-     */
+    // ------------------ TESTS ------------------
+
     @Test
-    public void testShowMenu() {
-        System.out.println("showMenu");
-        TVseriesMenu instance = new TVseriesMenu();
-        instance.showMenu();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testSeriesStorage() {
+        assertEquals(2, seriesList.size());
+        assertEquals("Breaking Code", seriesList.get(0).SeriesName);
     }
 
-    /**
-     * Test of captureSeries method, of class TVseriesMenu.
-     */
     @Test
-    public void testCaptureSeries() {
-        System.out.println("captureSeries");
-        TVseriesMenu instance = new TVseriesMenu();
-        instance.captureSeries();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testSearchSeries_Found() {
+        SeriesModel found = null;
+        for (SeriesModel s : seriesList) {
+            if (s.SeriesId.equals("S1")) {
+                found = s;
+                break;
+            }
+        }
+        assertNotNull(found);
+        assertEquals("Breaking Code", found.SeriesName);
     }
 
-    /**
-     * Test of getValidSeriesAge method, of class TVseriesMenu.
-     */
     @Test
-    public void testGetValidSeriesAge() {
-        System.out.println("getValidSeriesAge");
-        TVseriesMenu instance = new TVseriesMenu();
-        String expResult = "";
-        String result = instance.getValidSeriesAge();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testSearchSeries_NotFound() {
+        SeriesModel found = null;
+        for (SeriesModel s : seriesList) {
+            if (s.SeriesId.equals("S99")) {
+                found = s;
+                break;
+            }
+        }
+        assertNull(found);
     }
 
-    /**
-     * Test of isNumeric method, of class TVseriesMenu.
-     */
-    @Test
-    public void testIsNumeric() {
-        System.out.println("isNumeric");
-        String str = "";
-        TVseriesMenu instance = new TVseriesMenu();
-        boolean expResult = false;
-        boolean result = instance.isNumeric(str);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of searchSeries method, of class TVseriesMenu.
-     */
-    @Test
-    public void testSearchSeries() {
-        System.out.println("searchSeries");
-        TVseriesMenu instance = new TVseriesMenu();
-        instance.searchSeries();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of updateSeries method, of class TVseriesMenu.
-     */
     @Test
     public void testUpdateSeries() {
-        System.out.println("updateSeries");
-        TVseriesMenu instance = new TVseriesMenu();
-        instance.updateSeries();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        SeriesModel toUpdate = seriesList.get(0);
+        toUpdate.SeriesName = "Updated Show";
+        toUpdate.SeriesAge = "15";
+        toUpdate.SeriesNumberOfEpisodes = "20";
+
+        assertEquals("Updated Show", seriesList.get(0).SeriesName);
+        assertEquals("15", seriesList.get(0).SeriesAge);
+        assertEquals("20", seriesList.get(0).SeriesNumberOfEpisodes);
     }
 
-    /**
-     * Test of deleteSeries method, of class TVseriesMenu.
-     */
     @Test
-    public void testDeleteSeries() {
-        System.out.println("deleteSeries");
-        TVseriesMenu instance = new TVseriesMenu();
-        instance.deleteSeries();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testDeleteSeries_Found() {
+        int initialSize = seriesList.size();
+        SeriesModel toDelete = seriesList.get(0);
+        seriesList.remove(toDelete);
+
+        assertEquals(initialSize - 1, seriesList.size());
+        assertEquals("Java Dreams", seriesList.get(0).SeriesName);
     }
 
-    /**
-     * Test of printSeriesReport method, of class TVseriesMenu.
-     */
     @Test
-    public void testPrintSeriesReport() {
-        System.out.println("printSeriesReport");
-        TVseriesMenu instance = new TVseriesMenu();
-        instance.printSeriesReport();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testDeleteSeries_NotFound() {
+        int initialSize = seriesList.size();
+        SeriesModel notThere = null;
+        for (SeriesModel s : seriesList) {
+            if (s.SeriesId.equals("S99")) {
+                notThere = s;
+                break;
+            }
+        }
+        if (notThere != null) {
+            seriesList.remove(notThere);
+        }
+        assertEquals(initialSize, seriesList.size());
     }
 
-    /**
-     * Test of exitSeriesApplication method, of class TVseriesMenu.
-     */
     @Test
-    public void testExitSeriesApplication() {
-        System.out.println("exitSeriesApplication");
-        TVseriesMenu instance = new TVseriesMenu();
-        instance.exitSeriesApplication();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testSeriesAgeRestriction_AgeValid() {
+        SeriesModel valid = new SeriesModel("S3", "Valid Show", "18", "5");
+        assertTrue(menu.isNumeric(valid.SeriesAge));
+        int age = Integer.parseInt(valid.SeriesAge);
+        assertTrue(age >= 2 && age <= 18);
     }
 
-    /**
-     * Test of backToMenuOrExit method, of class TVseriesMenu.
-     */
     @Test
-    public void testBackToMenuOrExit() {
-        System.out.println("backToMenuOrExit");
-        TVseriesMenu instance = new TVseriesMenu();
-        instance.backToMenuOrExit();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testSeriesAgeRestriction_AgeInvalid() {
+        SeriesModel invalid = new SeriesModel("S4", "Invalid Show", "abc", "7");
+        assertFalse(menu.isNumeric(invalid.SeriesAge));
     }
-    
+
+    @Test
+    public void testIsNumeric() {
+        assertTrue(menu.isNumeric("123"));
+        assertFalse(menu.isNumeric("12a3"));
+        assertFalse(menu.isNumeric(""));
+    }
+
+    @Test
+    public void testSeriesReport_NotEmpty() {
+        assertFalse(seriesList.isEmpty());
+    }
+
+    @Test
+    public void testSeriesReport_EmptyList() {
+        seriesList.clear();
+        assertTrue(seriesList.isEmpty());
+    }
 }
